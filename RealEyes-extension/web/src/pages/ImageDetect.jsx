@@ -52,14 +52,18 @@ export default function ImageDetect() {
       }
 
       const token = localStorage.getItem('token');
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
       
       const response = await fetch(`${API_BASE}/api/tools/detect-image`, {
         method: 'POST',
         headers: {
           ...(token ? { 'Authorization': `Bearer ${token}` } : {})
         },
-        body: formData
+        body: formData,
+        signal: controller.signal
       });
+      clearTimeout(timeoutId);
 
       if (!response.ok) {
         throw new Error('Failed to analyze image.');
@@ -69,7 +73,11 @@ export default function ImageDetect() {
       setResults(data);
     } catch (err) {
       console.error(err);
-      alert("Error generating forensic analysis.");
+      if (err.name === 'AbortError') {
+        alert("Analysis request timed out. Please try uploading an image directly or try again.");
+      } else {
+        alert("Error generating forensic analysis. Please ensure a valid image or image URL is provided.");
+      }
     } finally {
       setAnalyzing(false);
     }
