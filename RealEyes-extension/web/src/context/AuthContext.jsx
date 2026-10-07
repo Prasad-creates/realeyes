@@ -8,22 +8,13 @@ const API_BASE = import.meta.env.DEV
   : 'https://realeyes-final.onrender.com';
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('token') || null);
-  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState({ name: 'RealEyes User', email: 'user@realeyes.ai' });
+  const [token, setToken] = useState('unrestricted_access_token');
+  const [loading, setLoading] = useState(false);
 
-  // Re-hydrate user state if token exists
   useEffect(() => {
-    if (token) {
-      // In a real app, hit an /api/auth/me to validate token,
-      // here we just decode or save user data in localStorage too.
-      const storedUser = localStorage.getItem('user');
-      if (storedUser) {
-        setUser(JSON.parse(storedUser));
-      }
-    }
     setLoading(false);
-  }, [token]);
+  }, []);
 
   const login = async (email, password) => {
     const res = await axios.post(`${API_BASE}/api/auth/login`, { email, password });

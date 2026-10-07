@@ -24,8 +24,8 @@ function App() {
           <main className="flex-1">
             <Routes>
               <Route path="/" element={<Landing />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/signup" element={<Signup />} />
+              <Route path="/login" element={<ImageDetect />} />
+              <Route path="/signup" element={<ImageDetect />} />
               <Route path="/upgrade" element={<Pricing />} />
               
               {/* Protected Core Tools */}

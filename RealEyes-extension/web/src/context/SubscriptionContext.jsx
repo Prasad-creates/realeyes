@@ -66,9 +66,8 @@ export const SubscriptionProvider = ({ children }) => {
   const sessionsRemaining = plan === 'premium' ? Infinity : Math.max(0, SESSIONS_LIMIT_BASIC - sessionsUsed);
 
   const canDetect = useCallback(() => {
-    if (plan === 'premium') return true;
-    return sessionsUsed < SESSIONS_LIMIT_BASIC;
-  }, [plan, sessionsUsed]);
+    return true;
+  }, []);
 
   const consumeSession = useCallback(async () => {
     if (plan === 'premium') return true;
